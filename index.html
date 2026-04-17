@@ -246,6 +246,10 @@
       return [...eq.left.map(f => ({ side: "left", formula: f })), ...eq.right.map(f => ({ side: "right", formula: f }))];
     }
 
+    function formatFormulaHTML(formula) {
+      return formula.replace(/(\d+)/g, "<sub>$1</sub>");
+    }
+
     function buildEquation() {
       const eq = equations[current];
       const compounds = allCompounds(eq);
@@ -255,7 +259,7 @@
       compounds.forEach((compound, idx) => {
         const term = document.createElement("div");
         term.className = "term";
-        term.innerHTML = `<input class="coeff" type="number" min="0" step="1" value="1" aria-label="coefficient ${compound.formula}" /> <strong>${compound.formula}</strong>`;
+        term.innerHTML = `<input class="coeff" type="number" min="0" step="1" value="1" aria-label="coefficient ${compound.formula}" /> <strong>${formatFormulaHTML(compound.formula)}</strong>`;
         term.querySelector("input").addEventListener("input", update);
         equationRow.appendChild(term);
 
